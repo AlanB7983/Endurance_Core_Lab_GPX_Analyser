@@ -1,1 +1,13 @@
-test
+streamlit
+matplotlib
+numpy
+plotly
+pandas
+reportlab
+kaleido==0.2.1
+scipy
+fonttools
+streamlit-aggrid
+requests
+folium
+gpxpy
