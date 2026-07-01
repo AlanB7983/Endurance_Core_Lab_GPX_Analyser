@@ -57,7 +57,7 @@ install_private_package()
 
 
 
-from gpw_functions.package import parse_gpx_file, compute_cumulative_distances_and_elevations, discretize_into_100m_segments, fetch_surface_from_osm, compute_global_stats, render_tab1, render_tab2, render_tab3, render_tab4, render_synced_map_section, render_map_section
+from gpw_functions.gpx_package import parse_gpx_file, compute_cumulative_distances_and_elevations, discretize_into_100m_segments, fetch_surface_from_osm, compute_global_stats, render_tab1, render_tab2, render_tab3, render_tab4, render_synced_map_section, render_map_section
 #from gpx_package import parse_gpx_file, compute_cumulative_distances_and_elevations, discretize_into_100m_segments, fetch_surface_from_osm, compute_global_stats, render_tab1, render_tab2, render_tab3, render_tab4, render_synced_map_section, render_map_section
 
 
