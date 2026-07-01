@@ -14,6 +14,31 @@ Version : 2.1
 # =============================================================================
 
 import streamlit as st
+import subprocess
+import sys
+
+# --- Installation dynamique du package privé (fonctions propriétaires) ---
+# Nécessaire car Streamlit Cloud n'expanse pas les variables d'environnement
+# dans requirements.txt au moment du build. On installe donc le package
+# manuellement ici, au runtime, où st.secrets est disponible.
+def install_private_package():
+    try:
+        import gpx_functions  # noqa: F401
+    except ImportError:
+        token = st.secrets["GITHUB_TOKEN"]
+        repo_url = (
+            f"git+https://{token}@github.com/"
+            "AlanB7983/Endurance_Core_Lab_GPX_Analyser_Private.git"
+        )
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", "--quiet", repo_url]
+        )
+
+install_private_package()
+
+
+
+
 from gpw_functions.package import parse_gpx_file, compute_cumulative_distances_and_elevations, discretize_into_100m_segments, fetch_surface_from_osm, compute_global_stats, render_tab1, render_tab2, render_tab3, render_tab4, render_synced_map_section, render_map_section
 #from gpx_package import parse_gpx_file, compute_cumulative_distances_and_elevations, discretize_into_100m_segments, fetch_surface_from_osm, compute_global_stats, render_tab1, render_tab2, render_tab3, render_tab4, render_synced_map_section, render_map_section
 
