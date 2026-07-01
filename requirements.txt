@@ -11,3 +11,4 @@ streamlit-aggrid
 requests
 folium
 gpxpy
+git+https://${GITHUB_TOKEN}@github.com/AlanB7983/Endurance_Core_Lab_GPX_Analyser_Prive.git
