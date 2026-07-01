@@ -12,3 +12,4 @@ requests
 gpxpy
 folium
 streamlit_folium
+git+https://${GITHUB_TOKEN}@github.com/AlanB7983/Endurance_Core_Lab_GPX_Analyser_Private.git
