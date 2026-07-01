@@ -16,6 +16,7 @@ Version : 2.1
 import streamlit as st
 import subprocess
 import sys
+import os
 
 # --- Installation dynamique du package privé (fonctions propriétaires) ---
 # Nécessaire car Streamlit Cloud n'expanse pas les variables d'environnement
@@ -30,8 +31,17 @@ def install_private_package():
             f"git+https://{token}@github.com/"
             "AlanB7983/Endurance_Core_Lab_GPX_Analyser_Private.git"
         )
+        # Installation dans un dossier local accessible en écriture,
+        # car site-packages du venv est en lecture seule au runtime.
+        install_dir = "/tmp/private_pkgs"
+        os.makedirs(install_dir, exist_ok=True)
+
         result = subprocess.run(
-            [sys.executable, "-m", "pip", "install", repo_url],
+            [
+                sys.executable, "-m", "pip", "install",
+                "--target", install_dir,
+                repo_url,
+            ],
             capture_output=True,
             text=True,
         )
@@ -39,6 +49,8 @@ def install_private_package():
             st.error("Échec de l'installation du package privé :")
             st.code(result.stdout + "\n" + result.stderr)
             st.stop()
+
+        sys.path.insert(0, install_dir)
 
 install_private_package()
 
