@@ -10,3 +10,4 @@ fonttools
 streamlit-aggrid
 requests
 gpxpy
+folium
