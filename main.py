@@ -30,7 +30,7 @@ def install_private_package():
             f"git+https://{token}@github.com/"
             "AlanB7983/Endurance_Core_Lab_GPX_Analyser_Private.git"
         )
-        subprocess.check_call(
+        result = subprocess.run(
             [sys.executable, "-m", "pip", "install", repo_url],
             capture_output=True,
             text=True,
