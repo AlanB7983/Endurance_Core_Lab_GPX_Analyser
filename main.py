@@ -31,8 +31,14 @@ def install_private_package():
             "AlanB7983/Endurance_Core_Lab_GPX_Analyser_Private.git"
         )
         subprocess.check_call(
-            [sys.executable, "-m", "pip", "install", "--quiet", repo_url]
+            [sys.executable, "-m", "pip", "install", repo_url],
+            capture_output=True,
+            text=True,
         )
+        if result.returncode != 0:
+            st.error("Échec de l'installation du package privé :")
+            st.code(result.stdout + "\n" + result.stderr)
+            st.stop()
 
 install_private_package()
 
