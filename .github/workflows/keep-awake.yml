@@ -1,4 +1,4 @@
-name: Keep Streamlit App Awake
+name: Keep Streamlit Apps Awake
 
 on:
   schedule:
@@ -17,19 +17,31 @@ jobs:
         run: |
           pip install playwright
           playwright install --with-deps chromium
-      - name: Visit app to keep it awake
+      - name: Visit apps to keep them awake
         run: |
           python -c "
           from playwright.sync_api import sync_playwright
+
+          urls = [
+              'https://endurancecorelabgpxanalyser.streamlit.app',
+              'https://endurancecorelabvitessecritique.streamlit.app',
+          ]
+
           with sync_playwright() as p:
               browser = p.chromium.launch()
-              page = browser.new_page()
-              page.goto('https://endurancecorelabgpxanalyser.streamlit.app', timeout=60000)
-              page.wait_for_timeout(5000)
-              try:
-                  page.click('text=Yes, get this app back up!', timeout=3000)
-                  page.wait_for_timeout(10000)
-              except Exception:
-                  pass
+              for url in urls:
+                  page = browser.new_page()
+                  try:
+                      page.goto(url, timeout=60000)
+                      page.wait_for_timeout(5000)
+                      try:
+                          page.click('text=Yes, get this app back up!', timeout=3000)
+                          page.wait_for_timeout(10000)
+                      except Exception:
+                          pass
+                  except Exception as e:
+                      print(f'Erreur sur {url}: {e}')
+                  finally:
+                      page.close()
               browser.close()
           "
