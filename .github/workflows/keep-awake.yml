@@ -1,0 +1,35 @@
+name: Keep Streamlit App Awake
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          playwright install --with-deps chromium
+      - name: Visit app to keep it awake
+        run: |
+          python -c "
+          from playwright.sync_api import sync_playwright
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              page = browser.new_page()
+              page.goto('https://endurancecorelabgpxanalyser.streamlit.app', timeout=60000)
+              page.wait_for_timeout(5000)
+              try:
+                  page.click('text=Yes, get this app back up!', timeout=3000)
+                  page.wait_for_timeout(10000)
+              except Exception:
+                  pass
+              browser.close()
+          "
